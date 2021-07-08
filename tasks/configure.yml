@@ -255,6 +255,10 @@
     dest: "{{ tor_ConfDir }}/tor-exit-notice.html"
     mode: 0444
   when: tor_ExitRelay and tor_ExitNoticePage
+  notify:
+    - restart tor instances (FreeBSD)
+    - restart tor instances (Linux)
+    - restart tor instances (OpenBSD)
 
 - name: Ensure torrc configuration file(s) are in place
   become: yes
@@ -273,8 +277,8 @@
   loop_control:
     index_var: loop_idx
   notify:
-    - Ensure Tor instances are restarted if its torrc changed (FreeBSD)
-    - Ensure Tor instances are restarted if its torrc changed (Linux)
-    - Ensure Tor instances are restarted if its torrc changed (OpenBSD)
+    - restart tor instances (FreeBSD)
+    - restart tor instances (Linux)
+    - restart tor instances (OpenBSD)
   tags:
    - reconfigure
